@@ -435,6 +435,7 @@ if (_chatSettingsEl) _chatSettingsEl.addEventListener('click', () => {
         '#typing-indicator-toggle': { prop: 'typingIndicatorEnabled', name: '正在输入' },
         '#read-no-reply-toggle': { prop: 'allowReadNoReply', name: '已读不回' },
         '#emoji-mix-toggle': { prop: 'emojiMixEnabled', name: '表情消息' }
+        '#word-scramble-toggle': { prop: 'wordScrambleEnabled', name: '拼字卡' }
     };
     for (const [selector, { prop }] of Object.entries(toggleSyncMap)) {
         const el = document.querySelector(selector);
