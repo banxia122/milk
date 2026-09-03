@@ -1698,19 +1698,32 @@ if (partnerPersonas && partnerPersonas.length > 0 && Math.random() < 0.3) {
                     const shouldSendSticker = enabledStickerPool.length > 0 && Math.random() < 0.2;
 
                     let finalText = replyText;
-                    let separateEmoji = null;
-                    if (customEmojis && customEmojis.length > 0 && Math.random() < 0.2) {
-                        const emoji = customEmojis[Math.floor(Math.random() * customEmojis.length)];
-                        if (settings.emojiMixEnabled !== false) {
-                            finalText = Math.random() < 0.5
-                                ? emoji + ' ' + replyText
-                                : replyText + ' ' + emoji;
-                        } else {
-                            separateEmoji = emoji;
-                        }
-                    }
 
-                    addMessage({
+// ===== 🧩 拼字卡逻辑 =====
+if (settings.wordScrambleEnabled && Math.random() > 0.5) {
+    const pool = replyPoolOnce;
+    if (pool && pool.length >= 2) {
+        const count = Math.floor(Math.random() * 3) + 2;
+        const shuffled = [...pool].sort(() => Math.random() - 0.5);
+        const picked = shuffled.slice(0, Math.min(count, shuffled.length));
+        finalText = picked.join(' ');
+    }
+}
+// ==========================
+
+let separateEmoji = null;
+if (customEmojis && customEmojis.length > 0 && Math.random() < 0.2) {
+    const emoji = customEmojis[Math.floor(Math.random() * customEmojis.length)];
+    if (settings.emojiMixEnabled !== false) {
+        finalText = Math.random() < 0.5
+            ? emoji + ' ' + finalText
+            : finalText + ' ' + emoji;
+    } else {
+        separateEmoji = emoji;
+    }
+}
+
+addMessage({
                         id: Date.now() + i,
                         sender: settings.partnerName || '对方',
                         text: finalText,
